@@ -1,0 +1,50 @@
+name: Chess3D
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "17.0"
+settings:
+  base:
+    SWIFT_VERSION: 5.0
+targets:
+  Chess3D:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+      - path: Rendering
+      - path: Engine
+      - path: AI
+      - path: Online
+      - path: Persistence
+    info:
+      path: App/Info.plist
+      properties:
+        UILaunchScreen: {}
+        UIApplicationSupportsIndirectInputEvents: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.Chess3D
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: false
+    postCompileScripts: []
+  Chess3DTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests
+    dependencies:
+      - target: Chess3D
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.Chess3DTests
+        GENERATE_INFOPLIST_FILE: true
