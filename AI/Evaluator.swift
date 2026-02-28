@@ -13,11 +13,10 @@ enum Evaluator {
     static func evaluate(_ state: GameState, perspective: PieceColor) -> Int {
         switch state.status {
         case .checkmate:
-            if state.winner == perspective {
-                return 100_000
-            }
-            return -100_000
-        case .stalemate:
+            return state.winner == perspective ? 100_000 : -100_000
+        case .resigned:
+            return state.winner == perspective ? 100_000 : -100_000
+        case .stalemate, .fiftyMoveRule, .insufficientMaterial, .threefoldRepetition:
             return 0
         case .check, .ongoing:
             break
@@ -25,10 +24,18 @@ enum Evaluator {
 
         let whiteMaterial = materialScore(for: .white, in: state)
         let blackMaterial = materialScore(for: .black, in: state)
-        let mobility = Rules.allLegalMoves(in: state).count
 
-        let signedMaterial = perspective == .white ? (whiteMaterial - blackMaterial) : (blackMaterial - whiteMaterial)
-        let signedMobility = (state.turn == perspective ? 1 : -1) * mobility
+        // Use pseudo-legal move count as a fast mobility heuristic (no legality filter needed)
+        let whiteMobility = MoveGenerator.pseudoLegalMoves(for: .white, in: state).count
+        let blackMobility = MoveGenerator.pseudoLegalMoves(for: .black, in: state).count
+
+        let signedMaterial = perspective == .white
+            ? (whiteMaterial - blackMaterial)
+            : (blackMaterial - whiteMaterial)
+
+        let signedMobility = perspective == .white
+            ? (whiteMobility - blackMobility)
+            : (blackMobility - whiteMobility)
 
         return signedMaterial + signedMobility
     }

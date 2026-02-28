@@ -125,7 +125,18 @@ struct GameHUDView: View {
             }
             return "Checkmate"
         case .stalemate:
-            return "Stalemate"
+            return "Stalemate — draw"
+        case .fiftyMoveRule:
+            return "Draw — 50-move rule"
+        case .insufficientMaterial:
+            return "Draw — insufficient material"
+        case .threefoldRepetition:
+            return "Draw — threefold repetition"
+        case .resigned:
+            if let winner = store.state.winner {
+                return "\(winner == .white ? "White" : "Black") wins by resignation"
+            }
+            return "Resigned"
         }
     }
 
@@ -135,9 +146,9 @@ struct GameHUDView: View {
             return DesignSystem.textSecondary
         case .check:
             return DesignSystem.glowPink
-        case .checkmate:
+        case .checkmate, .resigned:
             return DesignSystem.gold
-        case .stalemate:
+        case .stalemate, .fiftyMoveRule, .insufficientMaterial, .threefoldRepetition:
             return DesignSystem.accentPurple
         }
     }

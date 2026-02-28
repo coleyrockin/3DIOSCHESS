@@ -6,6 +6,8 @@ struct OnlineMoveMessage: Codable {
     let toFile: Int
     let toRank: Int
     let promotion: PieceType?
+    let isEnPassant: Bool
+    let isCastling: Bool
 }
 
 enum MatchMessengerError: Error {
@@ -22,7 +24,9 @@ final class MatchMessenger {
             fromRank: move.from.rank,
             toFile: move.to.file,
             toRank: move.to.rank,
-            promotion: move.promotion
+            promotion: move.promotion,
+            isEnPassant: move.isEnPassant,
+            isCastling: move.isCastling
         )
         return try encoder.encode(message)
     }
@@ -34,6 +38,7 @@ final class MatchMessenger {
             throw MatchMessengerError.invalidSquare
         }
 
-        return Move(from: from, to: to, promotion: payload.promotion)
+        return Move(from: from, to: to, promotion: payload.promotion,
+                    isEnPassant: payload.isEnPassant, isCastling: payload.isCastling)
     }
 }

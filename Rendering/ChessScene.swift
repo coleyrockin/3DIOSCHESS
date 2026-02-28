@@ -207,8 +207,8 @@ final class ChessScene {
         trail.loops = false
 
         node.addParticleSystem(trail)
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.35) {
-            node.removeParticleSystem(trail)
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.35) { [weak node] in
+            node?.removeParticleSystem(trail)
         }
     }
 
@@ -300,7 +300,7 @@ final class ChessScene {
     }
 
     private func applyCheckmateEffect(status: GameStatus) {
-        if status == .checkmate {
+        if status == .checkmate || status == .resigned {
             guard !isCheckmateEffectActive else { return }
             isCheckmateEffectActive = true
 

@@ -20,8 +20,7 @@ final class SelectionHighlighter {
         if let hovered { activeSquares.insert(hovered) }
 
         for square in overlayNodes.keys where !activeSquares.contains(square) {
-            overlayNodes[square]?.removeFromParentNode()
-            overlayNodes[square] = nil
+            overlayNodes.removeValue(forKey: square)?.removeFromParentNode()
         }
 
         for square in activeSquares {

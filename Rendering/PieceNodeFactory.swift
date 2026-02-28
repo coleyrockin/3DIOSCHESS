@@ -50,6 +50,10 @@ enum PieceNodeFactory {
         return material
     }()
 
+    static func clearCache() {
+        prototypeCache.removeAll()
+    }
+
     static func makeNode(for piece: Piece, square: Square) -> SCNNode {
         let key = "\(piece.color.rawValue)_\(piece.type.rawValue)"
         let prototype = prototypeCache[key] ?? {
@@ -171,22 +175,27 @@ enum PieceNodeFactory {
             ? UIColor(red: 0.00, green: 0.83, blue: 1.00, alpha: 1.0)
             : UIColor(red: 1.00, green: 0.31, blue: 0.85, alpha: 1.0)
         glowMaterial.diffuse.contents = UIColor.clear
-        glowMaterial.emission.contents = glowColor.withAlphaComponent(0.30)
+        glowMaterial.emission.contents = glowColor.withAlphaComponent(0.55)
         glowMaterial.lightingModel = .constant
         glowMaterial.blendMode = .add
         glowMaterial.isDoubleSided = true
         glowSphere.materials = [glowMaterial]
 
         let glowNode = SCNNode(geometry: glowSphere)
-        glowNode.position.y = 0.36
+        // Position glow at ~40% of piece height so it sits naturally inside each piece
+        let glowY: Float
+        switch piece.type {
+        case .pawn:   glowY = 0.36
+        case .rook:   glowY = 0.38
+        case .knight: glowY = 0.42
+        case .bishop: glowY = 0.44
+        case .queen:  glowY = 0.50
+        case .king:   glowY = 0.55
+        }
+        glowNode.position.y = glowY
+        glowNode.opacity = 0.72
         node.addChildNode(glowNode)
-
-        let pulseUp = SCNAction.fadeOpacity(to: 0.92, duration: 1.1)
-        let pulseDown = SCNAction.fadeOpacity(to: 0.52, duration: 1.1)
-        pulseUp.timingMode = .easeInEaseOut
-        pulseDown.timingMode = .easeInEaseOut
-        glowNode.opacity = 0.56
-        glowNode.runAction(.repeatForever(.sequence([pulseUp, pulseDown])))
+        // Static glow — no per-piece animation to reduce concurrent GPU work
     }
 
     private static func material(for color: PieceColor) -> SCNMaterial {
