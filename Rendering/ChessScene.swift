@@ -207,8 +207,8 @@ final class ChessScene {
         trail.loops = false
 
         node.addParticleSystem(trail)
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.35) {
-            node.removeParticleSystem(trail)
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.35) { [weak node] in
+            node?.removeParticleSystem(trail)
         }
     }
 

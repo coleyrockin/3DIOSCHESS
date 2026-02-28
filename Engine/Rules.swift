@@ -239,6 +239,13 @@ enum Rules {
 
     // MARK: - Draw helpers
 
+    // Position key format (for threefold repetition):
+    //   64 chars: piece letter per square (rank 0..7, file 0..7), '.' for empty
+    //   1 char:   side to move ('w'/'b')
+    //   4 chars:  castling rights (K/Q/k/q or '-' each)
+    //   1–2 chars: en-passant target algebraic or '-'
+    // Encodes everything that determines whether two positions are "the same"
+    // under FIDE threefold-repetition rules.
     private static func positionKey(for state: GameState) -> String {
         var key = ""
         key.reserveCapacity(70)
