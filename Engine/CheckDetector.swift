@@ -9,7 +9,7 @@ enum CheckDetector {
 
     static func isKingInCheck(color: PieceColor, in state: GameState) -> Bool {
         guard let kingSquare = kingSquare(for: color, in: state) else {
-            return true
+            return false
         }
         return isSquareAttacked(kingSquare, by: color.opposite, in: state)
     }

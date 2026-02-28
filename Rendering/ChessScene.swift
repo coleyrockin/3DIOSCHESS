@@ -300,7 +300,7 @@ final class ChessScene {
     }
 
     private func applyCheckmateEffect(status: GameStatus) {
-        if status == .checkmate {
+        if status == .checkmate || status == .resigned {
             guard !isCheckmateEffectActive else { return }
             isCheckmateEffectActive = true
 

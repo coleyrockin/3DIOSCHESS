@@ -50,7 +50,9 @@ final class ChessAI {
         alpha: Int,
         beta: Int
     ) -> Int {
-        if depth == 0 || state.status == .checkmate || state.status == .stalemate {
+        if depth == 0 || state.status == .checkmate || state.status == .stalemate
+            || state.status == .fiftyMoveRule || state.status == .insufficientMaterial
+            || state.status == .threefoldRepetition || state.status == .resigned {
             return Evaluator.evaluate(state, perspective: maximizingColor)
         }
 

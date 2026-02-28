@@ -42,7 +42,7 @@ final class ChessSceneViewController: UIViewController {
         scnView.antialiasingMode = .multisampling4X
         scnView.isJitteringEnabled = true
         scnView.preferredFramesPerSecond = 60
-        scnView.rendersContinuously = true
+        scnView.rendersContinuously = false
         scnView.allowsCameraControl = true
         scnView.defaultCameraController.interactionMode = .orbitTurntable
         scnView.defaultCameraController.inertiaEnabled = true

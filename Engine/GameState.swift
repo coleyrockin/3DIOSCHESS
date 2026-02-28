@@ -5,6 +5,16 @@ enum GameStatus: String, Codable {
     case check
     case checkmate
     case stalemate
+    case fiftyMoveRule
+    case insufficientMaterial
+    case threefoldRepetition
+    case resigned
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let raw = try container.decode(String.self)
+        self = GameStatus(rawValue: raw) ?? .ongoing
+    }
 }
 
 enum GameMode: String, Codable {
@@ -39,6 +49,7 @@ struct GameState: Codable, Equatable {
     var checkedKing: PieceColor?
     var capturedByWhite: [PieceType]
     var capturedByBlack: [PieceType]
+    var positionHistory: [String]
 
     init(
         board: Board = Board(),
@@ -51,7 +62,8 @@ struct GameState: Codable, Equatable {
         winner: PieceColor? = nil,
         checkedKing: PieceColor? = nil,
         capturedByWhite: [PieceType] = [],
-        capturedByBlack: [PieceType] = []
+        capturedByBlack: [PieceType] = [],
+        positionHistory: [String] = []
     ) {
         self.board = board
         self.turn = turn
@@ -64,5 +76,6 @@ struct GameState: Codable, Equatable {
         self.checkedKing = checkedKing
         self.capturedByWhite = capturedByWhite
         self.capturedByBlack = capturedByBlack
+        self.positionHistory = positionHistory
     }
 }

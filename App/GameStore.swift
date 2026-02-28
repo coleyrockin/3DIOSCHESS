@@ -90,6 +90,7 @@ final class GameStore: ObservableObject {
         hoveredSquare = nil
         moveAnimation = nil
         aiThinking = false
+        PieceNodeFactory.clearCache()
 
         if mode == .localAI {
             scheduleAIMoveIfNeeded()
@@ -166,9 +167,10 @@ final class GameStore: ObservableObject {
     }
 
     func resignCurrentPlayer() {
-        state.status = .checkmate
+        guard state.status == .ongoing || state.status == .check else { return }
+        state.status = .resigned
         state.winner = state.turn.opposite
-        state.checkedKing = state.turn
+        state.checkedKing = nil
         selectedSquare = nil
         legalTargetSquares = []
     }
