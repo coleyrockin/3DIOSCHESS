@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import GameKit
 
 struct RootView: View {
     @StateObject private var store = GameStore()
@@ -23,17 +24,13 @@ struct RootView: View {
         }
         .preferredColorScheme(.dark)
         .tint(DesignSystem.neonBlue)
-        .sheet(isPresented: authenticationSheetBinding) {
-            if let controller = store.onlineSession.authenticationViewController {
-                ExistingViewControllerHost(controller: controller)
-                    .ignoresSafeArea()
-            }
+        .sheet(item: authenticationControllerBinding) { wrapped in
+            ExistingViewControllerHost(controller: wrapped.controller)
+                .ignoresSafeArea()
         }
-        .sheet(isPresented: matchmakerSheetBinding) {
-            if let controller = store.onlineSession.matchmakerViewController {
-                ExistingViewControllerHost(controller: controller)
-                    .ignoresSafeArea()
-            }
+        .sheet(item: matchmakerControllerBinding) { wrapped in
+            ExistingViewControllerHost(controller: wrapped.controller)
+                .ignoresSafeArea()
         }
         .alert("Chess3D", isPresented: errorAlertBinding) {
             Button("OK", role: .cancel) {
@@ -171,26 +168,38 @@ struct RootView: View {
         )
     }
 
-    private var authenticationSheetBinding: Binding<Bool> {
+    private var authenticationControllerBinding: Binding<PresentedController?> {
         Binding(
-            get: { store.onlineSession.authenticationViewController != nil },
-            set: { newValue in
-                if !newValue {
-                    store.onlineSession.authenticationViewController = nil
+            get: {
+                store.onlineSession.authenticationViewController.map {
+                    PresentedController(controller: $0)
                 }
+            },
+            set: { newValue in
+                store.onlineSession.authenticationViewController = newValue?.controller
             }
         )
     }
 
-    private var matchmakerSheetBinding: Binding<Bool> {
+    private var matchmakerControllerBinding: Binding<PresentedController?> {
         Binding(
-            get: { store.onlineSession.matchmakerViewController != nil },
-            set: { newValue in
-                if !newValue {
-                    store.onlineSession.matchmakerViewController = nil
+            get: {
+                store.onlineSession.matchmakerViewController.map {
+                    PresentedController(controller: $0)
                 }
+            },
+            set: { newValue in
+                store.onlineSession[keyPath: \OnlineSession.matchmakerViewController] = newValue?.controller as? GKMatchmakerViewController
             }
         )
+    }
+}
+
+private struct PresentedController: Identifiable {
+    let controller: UIViewController
+
+    var id: ObjectIdentifier {
+        ObjectIdentifier(controller)
     }
 }
 

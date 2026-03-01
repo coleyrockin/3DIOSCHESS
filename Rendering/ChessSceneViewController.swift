@@ -35,20 +35,22 @@ final class ChessSceneViewController: UIViewController {
     }
 
     private func setupView() {
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor(red: 0.02, green: 0.03, blue: 0.05, alpha: 1.0)
+        view.isOpaque = true
 
         scnView.translatesAutoresizingMaskIntoConstraints = false
         scnView.scene = chessScene.scene
-        scnView.antialiasingMode = .multisampling4X
-        scnView.isJitteringEnabled = true
-        scnView.preferredFramesPerSecond = 60
+        scnView.antialiasingMode = .multisampling2X
+        scnView.isJitteringEnabled = false
+        scnView.preferredFramesPerSecond = 30
         scnView.rendersContinuously = false
-        scnView.allowsCameraControl = true
+        scnView.allowsCameraControl = false
         scnView.defaultCameraController.interactionMode = .orbitTurntable
         scnView.defaultCameraController.inertiaEnabled = true
         scnView.defaultCameraController.minimumVerticalAngle = -78
         scnView.defaultCameraController.maximumVerticalAngle = 18
         scnView.backgroundColor = UIColor(red: 0.02, green: 0.03, blue: 0.05, alpha: 1.0)
+        scnView.isOpaque = true
         scnView.clipsToBounds = true
 
         view.addSubview(scnView)

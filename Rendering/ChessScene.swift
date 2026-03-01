@@ -16,6 +16,7 @@ final class ChessScene {
     private var pieceNodes: [Square: SCNNode] = [:]
     private var isCheckmateEffectActive = false
     private var activeCheckKingSquare: Square?
+    private var lastRenderedBoard: Board?
 
     private let defaultCameraPosition = SCNVector3(0, 10.8, -9.1)
     private let defaultCameraEuler = SCNVector3(-.pi / 3.1, 0, 0)
@@ -28,14 +29,15 @@ final class ChessScene {
     }
 
     func setBoard(_ board: Board, animatedMove: Move?, status: GameStatus, checkedKing: PieceColor?) {
-        if let animatedMove {
-            if pieceNodes[animatedMove.from] != nil {
+        let boardChanged = lastRenderedBoard != board
+
+        if boardChanged {
+            if let animatedMove, pieceNodes[animatedMove.from] != nil {
                 animate(move: animatedMove, resultingBoard: board)
             } else {
                 rebuildPieces(with: board)
             }
-        } else {
-            rebuildPieces(with: board)
+            lastRenderedBoard = board
         }
 
         updateGameEffects(board: board, status: status, checkedKing: checkedKing)

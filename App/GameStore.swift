@@ -278,10 +278,11 @@ final class GameStore: ObservableObject {
         }
 
         let snapshot = state
+        let aiMaxDepth = ai.maxDepth
         aiThinking = true
 
-        DispatchQueue.global(qos: .userInitiated).async { [ai] in
-            let move = ai.bestMove(in: snapshot)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let move = ChessAI(maxDepth: aiMaxDepth).bestMove(in: snapshot)
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 defer { self.aiThinking = false }

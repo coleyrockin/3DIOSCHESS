@@ -87,24 +87,33 @@ final class OnlineSession: NSObject, ObservableObject {
 }
 
 extension OnlineSession: GKMatchmakerViewControllerDelegate {
-    func matchmakerViewControllerWasCancelled(_ viewController: GKMatchmakerViewController) {
-        state = .idle
-        statusMessage = "Matchmaking cancelled"
-        matchmakerViewController = nil
+    nonisolated func matchmakerViewControllerWasCancelled(_ viewController: GKMatchmakerViewController) {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.state = .idle
+            self.statusMessage = "Matchmaking cancelled"
+            self.matchmakerViewController = nil
+        }
     }
 
-    func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFailWithError error: Error) {
-        state = .error
-        statusMessage = "Matchmaking failed: \(error.localizedDescription)"
-        matchmakerViewController = nil
+    nonisolated func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFailWithError error: Error) {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.state = .error
+            self.statusMessage = "Matchmaking failed: \(error.localizedDescription)"
+            self.matchmakerViewController = nil
+        }
     }
 
-    func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFind match: GKMatch) {
-        self.match = match
-        match.delegate = self
-        state = .connected
-        statusMessage = "Connected to match"
-        matchmakerViewController = nil
+    nonisolated func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFind match: GKMatch) {
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            self.match = match
+            match.delegate = self
+            self.state = .connected
+            self.statusMessage = "Connected to match"
+            self.matchmakerViewController = nil
+        }
     }
 }
 

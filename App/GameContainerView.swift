@@ -38,6 +38,7 @@ struct GameContainerView: View {
             .padding(.horizontal, horizontalPadding)
             .padding(.vertical, verticalPadding)
         }
+        .background(FuturisticBackground())
     }
 
     @ViewBuilder
@@ -51,6 +52,7 @@ struct GameContainerView: View {
                 .overlay {
                     RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
                         .stroke(Color.white.opacity(0.14), lineWidth: max(1.0, boardSide * 0.003))
+                        .allowsHitTesting(false)
                 }
 
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
@@ -67,6 +69,7 @@ struct GameContainerView: View {
                     lineWidth: max(1.6, boardSide * 0.004)
                 )
                 .blur(radius: 1.0)
+                .allowsHitTesting(false)
         }
         .padding(10)
         .glassPanel(cornerRadius: cornerRadius + 8)
