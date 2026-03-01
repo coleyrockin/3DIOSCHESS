@@ -70,6 +70,15 @@ final class GameStore: ObservableObject {
                 self.errorMessage = value
             }
             .store(in: &cancellables)
+
+        // Forward all OnlineSession published-property changes so that views
+        // observing GameStore (e.g. RootView sheets, OnlineMenuView) re-render
+        // whenever authenticationViewController, matchmakerViewController,
+        // statusMessage, or state change on the session.
+        resolvedSession.objectWillChange
+            .receive(on: RunLoop.main)
+            .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
     }
 
     var isLocalPlayersTurn: Bool {

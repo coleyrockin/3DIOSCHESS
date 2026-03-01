@@ -189,7 +189,7 @@ struct RootView: View {
                 }
             },
             set: { newValue in
-                store.onlineSession[keyPath: \OnlineSession.matchmakerViewController] = newValue?.controller as? GKMatchmakerViewController
+                store.onlineSession.matchmakerViewController = newValue?.controller as? GKMatchmakerViewController
             }
         )
     }
