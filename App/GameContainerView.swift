@@ -218,12 +218,23 @@ private struct ChessSceneContainer: UIViewControllerRepresentable {
             animatedMove = nil
         }
 
+        let perspectiveColor: PieceColor
+        switch store.mode {
+        case .hotSeat:
+            perspectiveColor = store.state.turn
+        case .localAI:
+            perspectiveColor = .white
+        case .online:
+            perspectiveColor = store.localOnlineColor
+        }
+
         uiViewController.render(
             state: store.state,
             animatedMove: animatedMove,
             selectedSquare: store.selectedSquare,
             legalSquares: store.legalTargetSquares,
-            hoveredSquare: store.hoveredSquare
+            hoveredSquare: store.hoveredSquare,
+            perspective: perspectiveColor
         )
     }
 
