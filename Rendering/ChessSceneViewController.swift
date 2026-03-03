@@ -23,8 +23,10 @@ final class ChessSceneViewController: UIViewController {
         animatedMove: Move?,
         selectedSquare: Square?,
         legalSquares: [Square],
-        hoveredSquare: Square?
+        hoveredSquare: Square?,
+        perspective: PieceColor
     ) {
+        chessScene.applyPerspective(for: perspective)
         chessScene.setBoard(
             state.board,
             animatedMove: animatedMove,
@@ -42,9 +44,9 @@ final class ChessSceneViewController: UIViewController {
         scnView.scene = chessScene.scene
         scnView.antialiasingMode = .multisampling2X
         scnView.isJitteringEnabled = false
-        scnView.preferredFramesPerSecond = 30
-        scnView.rendersContinuously = false
-        scnView.allowsCameraControl = false
+        scnView.preferredFramesPerSecond = 60
+        scnView.rendersContinuously = true
+        scnView.allowsCameraControl = true
         scnView.defaultCameraController.interactionMode = .orbitTurntable
         scnView.defaultCameraController.inertiaEnabled = true
         scnView.defaultCameraController.minimumVerticalAngle = -78

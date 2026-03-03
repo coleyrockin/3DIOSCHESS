@@ -18,6 +18,7 @@ A stunning 3D chess game for iOS with physically-based lighting, smooth animatio
   - Rendered with SceneKit and physically-based lighting
   - Smooth piece animations with particle effects
   - Camera idle motion for visual appeal
+  - Board auto-rotates toward the active player with 60 fps orbit/zoom controls
   - Responsive touch controls with visual feedback
 
 - ♟️ **Full Chess Rules**

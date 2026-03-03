@@ -13,6 +13,8 @@ final class ChessScene {
     private let fillLightNode = SCNNode()
     private let rimLightNode = SCNNode()
 
+    private var currentPerspective: PieceColor = .white
+
     private var pieceNodes: [Square: SCNNode] = [:]
     private var isCheckmateEffectActive = false
     private var activeCheckKingSquare: Square?
@@ -45,6 +47,16 @@ final class ChessScene {
 
     func updateHighlights(selected: Square?, legal: [Square], hovered: Square?) {
         highlighter.update(selected: selected, legal: legal, hovered: hovered)
+    }
+
+    func applyPerspective(for color: PieceColor) {
+        guard color != currentPerspective else { return }
+        currentPerspective = color
+
+        let angle: CGFloat = color == .white ? 0 : .pi
+        rotateNode(boardRoot, to: angle)
+        rotateNode(piecesRoot, to: angle)
+        rotateNode(highlighter.rootNode, to: angle)
     }
 
     private func setupScene() {
@@ -98,6 +110,12 @@ final class ChessScene {
         scene.rootNode.addChildNode(rimLightNode)
 
         startCameraIdleMotion()
+    }
+
+    private func rotateNode(_ node: SCNNode, to angle: CGFloat) {
+        let rotate = SCNAction.rotateTo(x: 0, y: angle, z: 0, duration: 0.45, usesShortestUnitArc: true)
+        rotate.timingMode = .easeInEaseOut
+        node.runAction(rotate, forKey: "perspectiveRotate")
     }
 
     private func startCameraIdleMotion() {
