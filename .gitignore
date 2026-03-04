@@ -42,5 +42,17 @@ Podfile.lock
 # Logs
 *.log
 
+# Security & Sensitive Files
+*.pem
+*.key
+*.p12
+*.mobileprovision
+*.cer
+*.certSigningRequest
+config.plist
+secrets.plist
+*.env
+.env.*
+
 # OS
 Thumbs.db
