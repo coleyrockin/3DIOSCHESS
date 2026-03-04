@@ -16,6 +16,7 @@ final class ChessSceneViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupGestures()
+        optimizeRendering()
     }
 
     func render(
@@ -97,6 +98,25 @@ final class ChessSceneViewController: UIViewController {
             if lastHoverSquare != nil {
                 lastHoverSquare = nil
                 onSquareHovered?(nil)
+            }
+        }
+    }
+
+    private func optimizeRendering() {
+        // Optimize SceneKit rendering for better responsiveness
+        scnView.preferredFramesPerSecond = 60
+        scnView.rendersContinuously = true
+        
+        // Enable Metal rendering for better performance
+        if #available(iOS 13.0, *) {
+            scnView.renderingAPI = .metal
+        }
+        
+        // Optimize scene rendering
+        if let scene = scnView.scene {
+            scene.rootNode.enumerateChildNodes { node, _ in
+                node.castsShadow = false
+                node.renderingOrder = 0
             }
         }
     }

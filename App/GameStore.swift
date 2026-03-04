@@ -22,7 +22,7 @@ final class GameStore: ObservableObject {
     let onlineSession: OnlineSession
     let onlineCoordinator: OnlineGameCoordinator
 
-    private let ai = ChessAI(maxDepth: 2)
+    private var aiDifficulty: AIDifficulty = .medium
     private var history: [GameState] = []
     private var moveSequence = 0
     private var aiThinking = false
@@ -278,6 +278,10 @@ final class GameStore: ObservableObject {
         commit(move: move, sendOnline: false)
     }
 
+    func setAIDifficulty(_ difficulty: AIDifficulty) {
+        aiDifficulty = difficulty
+    }
+
     private func scheduleAIMoveIfNeeded() {
         guard mode == .localAI,
               state.turn == .black,
@@ -287,7 +291,7 @@ final class GameStore: ObservableObject {
         }
 
         let snapshot = state
-        let aiMaxDepth = ai.maxDepth
+        let aiMaxDepth = aiDifficulty.depth
         aiThinking = true
 
         DispatchQueue.global(qos: .userInitiated).async {

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct OfflineMenuView: View {
     @ObservedObject var store: GameStore
+    @State private var showDifficultyPicker = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
@@ -16,9 +17,12 @@ struct OfflineMenuView: View {
             .buttonStyle(NeonButtonStyle(accent: DesignSystem.neonBlue))
 
             Button("New vs Local AI") {
-                store.startNewGame(mode: .localAI)
+                showDifficultyPicker = true
             }
             .buttonStyle(NeonButtonStyle(accent: DesignSystem.accentPurple))
+            .sheet(isPresented: $showDifficultyPicker) {
+                DifficultyPickerView(isPresented: $showDifficultyPicker, store: store)
+            }
 
             Button("Undo") {
                 store.undo()
