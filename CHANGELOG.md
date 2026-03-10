@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+For a full list of planned work see [ROADMAP.md](ROADMAP.md).
+
 ## [1.0.0] - 2026-02-28
 
 ### Added
@@ -77,4 +79,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+For planned features see [ROADMAP.md](ROADMAP.md).
 For detailed development information, see [CONTRIBUTING.md](CONTRIBUTING.md).

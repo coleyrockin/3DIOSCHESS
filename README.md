@@ -7,6 +7,14 @@ A stunning 3D chess game for iOS with physically-based lighting, smooth animatio
 ![Xcode](https://img.shields.io/badge/Xcode-15+-lightgrey?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
+## Screenshots
+
+> *Run the app on an iOS 17+ Simulator (iPhone or iPad) to see it in action.*
+
+| Home / Menu | 3D Board | Check Alert |
+|:-----------:|:--------:|:-----------:|
+| _(coming soon)_ | _(coming soon)_ | _(coming soon)_ |
+
 ## Features
 
 - 🎮 **Three Game Modes**
@@ -283,6 +291,12 @@ private let ai = ChessAI(maxDepth: 2)  // Depth 1 for instant moves
 - Use a real device with a valid Apple ID for testing
 - Check network connectivity
 
+## Roadmap
+
+Planned features and improvements are tracked in [ROADMAP.md](ROADMAP.md).
+Highlights include pawn-promotion UI, PGN export, an improved AI evaluator with
+piece-square tables, iCloud sync, and an ARKit board mode.
+
 ## Contributing
 
 Contributions are welcome! Please:
@@ -290,6 +304,8 @@ Contributions are welcome! Please:
 2. Add tests for new functionality
 3. Ensure all tests pass
 4. Submit a pull request with a clear description
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines and [ROADMAP.md](ROADMAP.md) for planned work.
 
 ## License
 
@@ -304,5 +320,14 @@ For security policy and reporting vulnerabilities, see [SECURITY.md](SECURITY.md
 Created with ❤️ for iOS chess enthusiasts.
 
 ---
+
+| Document | Purpose |
+|----------|---------|
+| [README.md](README.md) | Overview, setup, architecture |
+| [ROADMAP.md](ROADMAP.md) | Planned features and future improvements |
+| [CHANGELOG.md](CHANGELOG.md) | Release history |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Contribution guidelines |
+| [SECURITY.md](SECURITY.md) | Security policy |
+| [CLAUDE.md](CLAUDE.md) | Developer architecture reference |
 
 **Ready to play?** Build and run the app, select a game mode, and enjoy!
